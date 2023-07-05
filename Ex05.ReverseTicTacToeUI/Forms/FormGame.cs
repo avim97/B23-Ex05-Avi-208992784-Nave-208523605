@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using Ex05.ReverseTicTacToeLogic.Infrastructure;
 using Ex05.ReverseTicTacToeLogic.Models;
@@ -30,7 +29,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
         private void configureFormLayoutSettings()
         {
-            setGameOverviewData();
+            updateGameOverview();
             setBoardLayout(m_GameState.BoardSize);
             setFormLayout();
         }
@@ -44,15 +43,12 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
             r_GameEngine.InitializeBoard(boardSize);
             r_GameEngine.SetGamePlayers(firstPlayerName, secondPlayerName, isAiMatch);
-            r_GameEngine.Board.AfterReinitialize += Board_Reinitialization;
-            r_GameEngine.Players.First().ScoreChanged += firstPlayer_ScoreChanged;
-            r_GameEngine.Players.First().AfterPlay += firstPlayer_AfterPlay;
-            r_GameEngine.Players.Last().ScoreChanged += secondPlayer_ScoreChanged;
-            r_GameEngine.Players.Last().AfterPlay += secondPlayer_AfterPlay;
-
+            r_GameEngine.Board.AfterReinitialize += board_ReInitialize;
+            r_GameEngine.TurnSwitching += gameEngine_TurnSwitching;
+            r_GameEngine.AfterScoresUpdate += gameEngine_AfterScoresUpdate;
         }
 
-        private void setGameOverviewData()
+        private void updateGameOverview()
         {
             const string k_PlayerOverviewFormat = @"{0}  Marker:{1} Score:{2}";
 
@@ -84,7 +80,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
         private void FormGame_Load(object sender, EventArgs e)
         {
-            var boardSize = m_GameState.BoardSize;
+            int boardSize = m_GameState.BoardSize;
             const int k_ButtonCellSize = 60;
 
             for (var i = 0; i < boardSize; i++)
@@ -95,9 +91,10 @@ namespace Ex05.ReverseTicTacToeUI.Forms
                     {
                         Size = new Size(k_ButtonCellSize, k_ButtonCellSize)
                     };
+
                     tableLayoutPanelBoard.Controls.Add(buttonCell, j, i);
                     buttonCell.Click += buttonCell_Click;
-                    r_GameEngine.Board.Cells[i, j].ValueChanged += BoardCell_ValueChanged;
+                    r_GameEngine.Board.AfterCellMarked += board_AfterCellMarked;
                 }
 
                 tableLayoutPanelBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, k_ButtonCellSize));
@@ -122,23 +119,26 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             }
         }
 
-        private void BoardCell_ValueChanged(int i_X, int i_Y, string i_NewCellMarker)
+        private void board_AfterCellMarked(CellEventArgs e)
         {
-            var button = tableLayoutPanelBoard.GetControlFromPosition(i_Y, i_X);
+            int x = e.X;
+            int y = e.Y;
+            string marker = e.Marker;
+            var buttonCell = tableLayoutPanelBoard.GetControlFromPosition(y, x);
 
-            if (button is Button changedButton)
+            if (buttonCell is Button changedButton)
             {
-                var buttonBackColor = i_NewCellMarker.Equals(m_GameState.FirstPlayerMarker)
+                var buttonBackColor = marker.Equals(m_GameState.FirstPlayerMarker)
                     ? Color.Gold
                     : Color.Aquamarine;
 
-                changedButton.Text = i_NewCellMarker;
+                changedButton.Text = marker;
                 changedButton.BackColor = buttonBackColor;
                 changedButton.Enabled = false;
             }
         }
 
-        private void Board_Reinitialization()
+        private void board_ReInitialize()
         {
             foreach (Button button in tableLayoutPanelBoard.Controls)
             {
@@ -150,7 +150,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
         private eMoveResult handleMoveResult(Coords i_MarkedCellCoords)
         {
-            var moveResult = r_GameEngine.CheckPlayerMoveExecutionResult(i_MarkedCellCoords);
+            var moveResult = r_GameEngine.GetMoveExecutionResult(i_MarkedCellCoords);
             var replayDialogResult = DialogResult.None;
 
             if (moveResult == eMoveResult.Lose)
@@ -180,31 +180,20 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             return moveResult;
         }
 
-        private void firstPlayer_ScoreChanged(int i_Score)
-        {
-            m_GameState.FirstPlayerScore = i_Score;
-            setGameOverviewData();
-        }
-
-        private void firstPlayer_AfterPlay()
+        private void gameEngine_TurnSwitching()
         {
             if (!m_GameState.IsAiMatch)
             {
-                labelFirstPlayerTurnIndicator.Visible = false;
-                labelSecondPlayerTurnIndicator.Visible = true;
+                labelFirstPlayerTurnIndicator.Visible = !labelFirstPlayerTurnIndicator.Visible;
+                labelSecondPlayerTurnIndicator.Visible = !labelSecondPlayerTurnIndicator.Visible;
             }
         }
 
-        private void secondPlayer_ScoreChanged(int i_Score)
+        private void gameEngine_AfterScoresUpdate(PlayersEventArgs e)
         {
-            m_GameState.SecondPlayerScore = i_Score;
-            setGameOverviewData();
-        }
-
-        private void secondPlayer_AfterPlay()
-        {
-            labelSecondPlayerTurnIndicator.Visible = false;
-            labelFirstPlayerTurnIndicator.Visible = true;
+            m_GameState.FirstPlayerScore = e.FirstPlayerScore;
+            m_GameState.SecondPlayerScore = e.SecondPlayerScore;
+            updateGameOverview();
         }
 
         private DialogResult displayGameResultMessage(string i_MessageToDisplay)

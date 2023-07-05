@@ -2,20 +2,20 @@
 {
     internal static class UserMessagesRepo
     {
-        private static readonly string m_TieMessage = @"Tie!
+        private const string k_TieMessageFormat = @"Tie!
 Would you like to play another round?";
 
-        private static readonly string m_WinMessage = @"The Winner is {0}!
+        private const string k_WinMessageFormat = @"The Winner is {0}!
 Would you like to play another round?";
 
         internal static string GenerateTieMessage()
         {
-            return m_TieMessage;
+            return k_TieMessageFormat;
         }
 
         internal static string GenerateWinMessage(string i_WinnerName)
         {
-            string winMessage = string.Format(m_WinMessage, i_WinnerName);
+            string winMessage = string.Format(k_WinMessageFormat, i_WinnerName);
 
             return winMessage;
         }

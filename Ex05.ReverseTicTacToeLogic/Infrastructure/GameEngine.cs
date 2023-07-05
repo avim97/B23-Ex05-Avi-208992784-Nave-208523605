@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ex05.ReverseTicTacToeLogic.Models;
 
 namespace Ex05.ReverseTicTacToeLogic.Infrastructure
 {
     public class GameEngine
     {
+        public event Action TurnSwitching;
+        public event Action<PlayersEventArgs> AfterScoresUpdate;
+
+        private readonly PlayersTurnsManager r_TurnsManager;
+        public List<Player> Players { get; }
+        public eGameStatuses GameSessionStatus { get; set; }
+        public Board Board { get; set; }
+        public string CurrentPlayerName => r_TurnsManager.CurrentPlayerName;
+
         public GameEngine()
         {
-            TurnsManager = new PlayersTurnsManager();
+            r_TurnsManager = new PlayersTurnsManager();
             GameSessionStatus = eGameStatuses.Running;
             Players = new List<Player>();
         }
-
-        public List<Player> Players { get; }
-        public PlayersTurnsManager TurnsManager { get; }
-        public eGameStatuses GameSessionStatus { get; set; }
-        public Board Board { get; set; }
-        public string CurrentPlayerName => TurnsManager.CurrentPlayerName;
-        public ePlayerType CurrentPlayerType => TurnsManager.CurrentPlayer.PlayerType;
 
         private void markCell(Coords i_Coords, eCellMarker i_Marker)
         {
@@ -26,7 +29,6 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             int yCoords = i_Coords.Y;
 
             Board.Cells[xCoords, yCoords].Marker = i_Marker;
-            Board.MarkedCells++;
         }
 
         private bool checkMarkSequence(Coords i_ModifiedCellCoords)
@@ -83,16 +85,15 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
 
         public void ExecutePlayerMove(Coords i_Coords)
         {
-            Player currentPlayer = TurnsManager.CurrentPlayer;
+            Player currentPlayer = r_TurnsManager.CurrentPlayer;
 
             markCell(i_Coords, currentPlayer.Marker);
-            currentPlayer.OnAfterPlay();
             SwitchTurns();
         }
 
         public void ExecuteComputerMove(out Coords o_ChosenCellCoords)
         {
-            Player computer = TurnsManager.CurrentPlayer;
+            Player computer = r_TurnsManager.CurrentPlayer;
             Random randomMoveGenerator = new Random();
             int xCoords = randomMoveGenerator.Next(Board.Width);
             int yCoords = randomMoveGenerator.Next(Board.Height);
@@ -115,7 +116,7 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             foreach (Player player in playerList)
             {
                 Players.Add(player);
-                TurnsManager.AddPlayer(player);
+                r_TurnsManager.AddPlayer(player);
             }
         }
 
@@ -134,27 +135,33 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             Board = new Board(i_BoardSize);
         }
 
-        private void emptyBoard()
+        private void reInitializeBoard()
         {
-            Board.ReinitializeCells();
+            Board.ReInitialize();
         }
 
         private void reInitializePlayersQueue()
         {
-            TurnsManager.ClearQueue();
+            if (r_TurnsManager.CurrentPlayer != Players.First())
+            {
+                OnTurnSwitching();
+            }
+
+            r_TurnsManager.ClearQueue();
 
             foreach (var player in Players)
             {
-                TurnsManager.AddPlayer(player);
+                r_TurnsManager.AddPlayer(player);
             }
         }
 
         public void SwitchTurns()
         {
-            TurnsManager.SwitchPlayersTurns();
+            r_TurnsManager.SwitchPlayersTurns();
+            OnTurnSwitching();
         }
 
-        public eMoveResult CheckPlayerMoveExecutionResult(Coords i_ModifiedCellCoords)
+        public eMoveResult GetMoveExecutionResult(Coords i_ModifiedCellCoords)
         {
             eMoveResult moveResult;
             bool sequenceFound = checkMarkSequence(i_ModifiedCellCoords);
@@ -163,9 +170,16 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             if (sequenceFound)
             {
                 moveResult = eMoveResult.Lose;
-                Player winningPlayer = TurnsManager.CurrentPlayer;
-
+                Player winningPlayer = r_TurnsManager.CurrentPlayer;
+                
                 winningPlayer.Score++;
+                PlayersEventArgs eventArgs = new PlayersEventArgs()
+                {
+                    FirstPlayerScore = Players.First().Score,
+                    SecondPlayerScore = Players.Last().Score
+                };
+
+                OnAfterScoresUpdate(eventArgs);
             }
             else if (boardIsFullyMarked)
             {
@@ -184,8 +198,17 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
         public void ResetGameSession()
         {
             reInitializePlayersQueue();
-            emptyBoard();
-            Board.MarkedCells = 0;
+            reInitializeBoard();
+        }
+
+        protected virtual void OnTurnSwitching()
+        {
+            TurnSwitching?.Invoke();
+        }
+
+        protected virtual void OnAfterScoresUpdate(PlayersEventArgs e)
+        {
+            AfterScoresUpdate?.Invoke(e);
         }
     }
 }

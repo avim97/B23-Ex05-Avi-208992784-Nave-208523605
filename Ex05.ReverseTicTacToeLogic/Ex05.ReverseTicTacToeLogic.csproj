@@ -44,12 +44,14 @@
     <Compile Include="Infrastructure\PlayersTurnsManager.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Cell.cs" />
+    <Compile Include="Models\CellEventArgs.cs" />
     <Compile Include="Models\Coords.cs" />
     <Compile Include="Models\eCellMarker.cs" />
     <Compile Include="Models\eGameStatuses.cs" />
     <Compile Include="Models\eMoveResult.cs" />
     <Compile Include="Models\ePlayerType.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayersEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

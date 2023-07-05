@@ -19,7 +19,7 @@ namespace Ex05.ReverseTicTacToeUI.Controllers
             r_FormGameSettings.ShowDialog();
             if (r_FormGameSettings.DialogResult.Equals(DialogResult.Yes))
             {
-                var gameStateDto = createGameInitialStateDto();
+                var gameStateDto = createGameInitialStateDTO();
                 m_FormGame = new FormGame();
                 m_FormGame.InitializeFormGame(gameStateDto);
                 m_FormGame.ShowDialog();
@@ -29,11 +29,11 @@ namespace Ex05.ReverseTicTacToeUI.Controllers
             r_FormGameSettings.Dispose();
         }
 
-        private GameStateDTO createGameInitialStateDto()
+        private GameStateDTO createGameInitialStateDTO()
         {
             string firstPlayerName = r_FormGameSettings.FirstPlayerName;
-            const string k_FirstPlayerMarker = "X";
             string secondPlayerName = r_FormGameSettings.SecondPlayerName;
+            const string k_FirstPlayerMarker = "X";
             const string k_SecondPlayerMarker = "O";
             var isAiMatch = r_FormGameSettings.IsAiMatch;
             var boardSize = r_FormGameSettings.BoardSize;
