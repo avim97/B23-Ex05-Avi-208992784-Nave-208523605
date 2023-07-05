@@ -69,13 +69,17 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
         private void setFormLayout()
         {
-            int formWidth = Math.Max(tableLayoutPanelBoard.Width, groupBoxGameOverview.Width) + 20 * 2;
-            int formHeight = tableLayoutPanelBoard.Height + groupBoxGameOverview.Height + 20 * 3 + 15;
+            const int k_LeftRightEdgesPadding = 20;
+            const int k_TopBottomEdgesPadding = 30;
+            const int k_FormWidthPadding = 40;
+            const int k_FormHeightPadding = 75;
+            int formWidth = Math.Max(tableLayoutPanelBoard.Width, groupBoxGameOverview.Width) + k_FormWidthPadding;
+            int formHeight = tableLayoutPanelBoard.Height + groupBoxGameOverview.Height + k_FormHeightPadding;
 
             ClientSize = new Size(formWidth, formHeight);
-            tableLayoutPanelBoard.Location = new Point((Width - tableLayoutPanelBoard.Width) / 2, 20);
+            tableLayoutPanelBoard.Location = new Point((Width - tableLayoutPanelBoard.Width) / 2, k_LeftRightEdgesPadding);
             groupBoxGameOverview.Location =
-                new Point((Width - groupBoxGameOverview.Width) / 2, tableLayoutPanelBoard.Bottom + 30);
+                new Point((Width - groupBoxGameOverview.Width) / 2, tableLayoutPanelBoard.Bottom + k_TopBottomEdgesPadding);
         }
 
         private void FormGame_Load(object sender, EventArgs e)
