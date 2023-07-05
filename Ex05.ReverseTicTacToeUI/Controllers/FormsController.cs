@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
-using Ex05.ReverseTicTacToeUI.Models;
+using Ex05.ReverseTicTacToeUI.DTOs;
+using Ex05.ReverseTicTacToeUI.Forms;
 
 namespace Ex05.ReverseTicTacToeUI.Controllers
 {
@@ -18,9 +19,9 @@ namespace Ex05.ReverseTicTacToeUI.Controllers
             r_FormGameSettings.ShowDialog();
             if (r_FormGameSettings.DialogResult.Equals(DialogResult.Yes))
             {
-                createGameSettingsDto(out var gameSettingsDto);
-                m_FormGame = new FormGame(gameSettingsDto);
-                m_FormGame.InitializeGameSession();
+                var gameStateDto = createGameInitialStateDto();
+                m_FormGame = new FormGame();
+                m_FormGame.InitializeFormGame(gameStateDto);
                 m_FormGame.ShowDialog();
                 m_FormGame.Dispose();
             }
@@ -28,15 +29,16 @@ namespace Ex05.ReverseTicTacToeUI.Controllers
             r_FormGameSettings.Dispose();
         }
 
-        private void createGameSettingsDto(out GameSettingsDto o_GameSettings)
+        private GameStateDTO createGameInitialStateDto()
         {
-            var firstPlayerName = r_FormGameSettings.FirstPlayerName;
-            var secondPlayerName = r_FormGameSettings.SecondPlayerName;
+            string firstPlayerName = r_FormGameSettings.FirstPlayerName;
+            const string k_FirstPlayerMarker = "X";
+            string secondPlayerName = r_FormGameSettings.SecondPlayerName;
+            const string k_SecondPlayerMarker = "O";
             var isAiMatch = r_FormGameSettings.IsAiMatch;
             var boardSize = r_FormGameSettings.BoardSize;
-            const string k_FirstPlayerMarker = "X", k_SecondPlayerMarker = "O";
 
-            o_GameSettings = new GameSettingsDto
+            GameStateDTO initialGameState = new GameStateDTO
             {
                 FirstPlayerName = firstPlayerName,
                 SecondPlayerName = secondPlayerName,
@@ -45,6 +47,8 @@ namespace Ex05.ReverseTicTacToeUI.Controllers
                 FirstPlayerMarker = k_FirstPlayerMarker,
                 SecondPlayerMarker = k_SecondPlayerMarker
             };
+
+            return initialGameState;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Ex05.ReverseTicTacToeUI
+﻿namespace Ex05.ReverseTicTacToeUI.Forms
 {
     partial class FormGameSettings
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGameSettings));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBoxPlayer2 = new System.Windows.Forms.CheckBox();
@@ -61,7 +62,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.label2.Location = new System.Drawing.Point(12, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(91, 25);
@@ -104,17 +105,17 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(16, 174);
+            this.label3.Location = new System.Drawing.Point(12, 181);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 22);
+            this.label3.Size = new System.Drawing.Size(125, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "Board Size:";
             // 
             // numericUpDownRows
             // 
-            this.numericUpDownRows.Location = new System.Drawing.Point(97, 220);
+            this.numericUpDownRows.Location = new System.Drawing.Point(125, 229);
             this.numericUpDownRows.Maximum = new decimal(new int[] {
             10,
             0,
@@ -138,7 +139,7 @@
             // 
             // numericUpDownCols
             // 
-            this.numericUpDownCols.Location = new System.Drawing.Point(239, 219);
+            this.numericUpDownCols.Location = new System.Drawing.Point(285, 229);
             this.numericUpDownCols.Maximum = new decimal(new int[] {
             10,
             0,
@@ -164,11 +165,11 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(16, 220);
+            this.label4.Location = new System.Drawing.Point(54, 229);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 20);
+            this.label4.Size = new System.Drawing.Size(65, 22);
             this.label4.TabIndex = 8;
             this.label4.Text = "Rows:";
             // 
@@ -176,11 +177,11 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(173, 219);
+            this.label5.Location = new System.Drawing.Point(223, 229);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 20);
+            this.label5.Size = new System.Drawing.Size(56, 22);
             this.label5.TabIndex = 9;
             this.label5.Text = "Cols:";
             // 
@@ -202,7 +203,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Ex05.ReverseTicTacToeUI.Properties.Resources.formBackground;
-            this.ClientSize = new System.Drawing.Size(394, 318);
+            this.ClientSize = new System.Drawing.Size(393, 321);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -215,6 +216,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormGameSettings";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

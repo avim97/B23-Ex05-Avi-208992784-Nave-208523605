@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Ex05.ReverseTicTacToeUI
+namespace Ex05.ReverseTicTacToeUI.Forms
 {
     public partial class FormGameSettings : Form
     {
@@ -13,12 +13,13 @@ namespace Ex05.ReverseTicTacToeUI
         public int BoardSize => (int)numericUpDownRows.Value;
         public string FirstPlayerName => textBoxPlayer1Name.Text;
         public string SecondPlayerName => textBoxPlayer2Name.Text;
-        public bool IsAiMatch => checkBoxPlayer2.Checked;
+        public bool IsAiMatch => !checkBoxPlayer2.Checked;
 
         private void checkBoxPlayer2_CheckStateChanged(object sender, EventArgs e)
         {
             textBoxPlayer2Name.Enabled = checkBoxPlayer2.Checked;
         }
+
         private void textBoxPlayer2Name_EnabledChanged(object sender, EventArgs e)
         {
             if (textBoxPlayer2Name.Enabled)
@@ -31,14 +32,17 @@ namespace Ex05.ReverseTicTacToeUI
                 textBoxPlayer2Name.Text = k_ComputerPlayerName;
             }
         }
+
         private void numericUpDownRows_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownCols.Value = numericUpDownRows.Value;
         }
+
         private void numericUpDownCols_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownRows.Value = numericUpDownCols.Value;
         }
+
         private void buttonStartGame_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Yes;

@@ -6,20 +6,19 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
 {
     public class GameEngine
     {
-        private readonly MoveValidator r_MoveValidator;
-        public List<Player> Players { get; }
-        public PlayersTurnsManager TurnsManager { get; }
-        public eGameStatuses GameSessionStatus { get; set; }
-        public Board Board { get; set; }
-        public string CurrentPlayer => TurnsManager.CurrentPlayer;
-
         public GameEngine()
         {
             TurnsManager = new PlayersTurnsManager();
             GameSessionStatus = eGameStatuses.Running;
-            r_MoveValidator = new MoveValidator();
             Players = new List<Player>();
         }
+
+        public List<Player> Players { get; }
+        public PlayersTurnsManager TurnsManager { get; }
+        public eGameStatuses GameSessionStatus { get; set; }
+        public Board Board { get; set; }
+        public string CurrentPlayerName => TurnsManager.CurrentPlayerName;
+        public ePlayerType CurrentPlayerType => TurnsManager.CurrentPlayer.PlayerType;
 
         private void markCell(Coords i_Coords, eCellMarker i_Marker)
         {
@@ -34,7 +33,10 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
         {
             eCellMarker cellMarker = Board.Cells[i_ModifiedCellCoords.X, i_ModifiedCellCoords.Y].Marker;
             int maxNumCellsInSequence = Board.Width;
-            int numIdenticalMarkersInRow = 0, numIdenticalMarkersInColumn = 0, numIdenticalMarkersInDiagonal = 0, numIdenticalMarkersInAntiDiagonal = 0;
+            int numIdenticalMarkersInRow = 0,
+                numIdenticalMarkersInColumn = 0,
+                numIdenticalMarkersInDiagonal = 0,
+                numIdenticalMarkersInAntiDiagonal = 0;
 
             for (int i = 0; i < maxNumCellsInSequence; i++)
             {
@@ -60,12 +62,12 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             }
 
             List<int> numIdenticalMarkersInSequences = new List<int>
-                                          {
-                                              numIdenticalMarkersInRow,
-                                              numIdenticalMarkersInColumn,
-                                              numIdenticalMarkersInDiagonal,
-                                              numIdenticalMarkersInAntiDiagonal
-                                          };
+            {
+                numIdenticalMarkersInRow,
+                numIdenticalMarkersInColumn,
+                numIdenticalMarkersInDiagonal,
+                numIdenticalMarkersInAntiDiagonal
+            };
 
             bool sequenceFound = numIdenticalMarkersInSequences.Contains(maxNumCellsInSequence);
 
@@ -74,31 +76,36 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
 
         private bool checkIfBoardIsFullyMarked()
         {
-            bool boardIsFullyMarked = Board.MarkedCells == Board.Height * Board.Width;
+            var boardIsFullyMarked = Board.MarkedCells == Board.Height * Board.Width;
 
             return boardIsFullyMarked;
         }
 
-        public void ExecutePlayerMove(Player i_Player, Coords i_Coords)
+        public void ExecutePlayerMove(Coords i_Coords)
         {
-            markCell(i_Coords, i_Player.Marker);
+            Player currentPlayer = TurnsManager.CurrentPlayer;
+
+            markCell(i_Coords, currentPlayer.Marker);
+            currentPlayer.AfterPlay();
+            SwitchTurns();
         }
 
-        public void ExecuteComputerMove(Player i_Player, out Coords o_ComputerMoveCoords)
+        public void ExecuteComputerMove(out Coords o_ChosenCellCoords)
         {
+            Player computer = TurnsManager.CurrentPlayer;
             Random randomMoveGenerator = new Random();
             int xCoords = randomMoveGenerator.Next(Board.Width);
             int yCoords = randomMoveGenerator.Next(Board.Height);
 
-            while (!Board.Cells[xCoords, yCoords].Marker.Equals(eCellMarker.None))
+            while (Board.Cells[xCoords, yCoords].Marker != eCellMarker.None)
             {
                 xCoords = randomMoveGenerator.Next(Board.Width);
                 yCoords = randomMoveGenerator.Next(Board.Height);
             }
 
-            o_ComputerMoveCoords = new Coords(xCoords, yCoords);
-            markCell(o_ComputerMoveCoords, i_Player.Marker);
-            
+            o_ChosenCellCoords = new Coords(xCoords, yCoords);
+            markCell(o_ChosenCellCoords, computer.Marker);
+            SwitchTurns();
         }
 
         public void SetGamePlayers(string i_FirstPlayerName, string i_SecondPlayerName, bool i_IsAiMatch)
@@ -129,34 +136,17 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
 
         private void emptyBoard()
         {
-            for (int i = 0; i < Board.Width; i++)
-            {
-                for (int j = 0; j < Board.Height; j++)
-                {
-                    Board.Cells[i, j].Marker = eCellMarker.None;
-                }
-            }
+            Board.ReinitializeCells();
         }
 
         private void reInitializePlayersQueue()
         {
             TurnsManager.ClearQueue();
 
-            foreach (Player player in Players)
+            foreach (var player in Players)
             {
                 TurnsManager.AddPlayer(player);
             }
-        }
-
-        public Player GetLastPlayer()
-        {
-            return TurnsManager.GetLastPlayer();
-        }
-
-        public eMoveInputValidationStatus ValidateMove(int i_XCoords, int i_YCoords)
-        {
-            Coords coordsToValidate = new Coords(i_XCoords, i_YCoords);
-            return r_MoveValidator.ValidateMove(coordsToValidate, Board);
         }
 
         public void SwitchTurns()
@@ -164,31 +154,31 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             TurnsManager.SwitchPlayersTurns();
         }
 
-        public eMoveExecutionResult CheckPlayerMoveExecutionResult(Coords i_ModifiedCellCoords)
+        public eMoveResult CheckPlayerMoveExecutionResult(Coords i_ModifiedCellCoords)
         {
-            eMoveExecutionResult moveExecutionResult;
+            eMoveResult moveResult;
             bool sequenceFound = checkMarkSequence(i_ModifiedCellCoords);
             bool boardIsFullyMarked = checkIfBoardIsFullyMarked();
 
             if (sequenceFound)
             {
-                moveExecutionResult = eMoveExecutionResult.Lose;
-                Player winningPlayer = TurnsManager.GetLastPlayer();
+                moveResult = eMoveResult.Lose;
+                Player winningPlayer = TurnsManager.CurrentPlayer;
 
                 winningPlayer.Score++;
             }
             else if (boardIsFullyMarked)
             {
-                moveExecutionResult = eMoveExecutionResult.Tie;
+                moveResult = eMoveResult.Tie;
             }
             else
             {
-                moveExecutionResult = eMoveExecutionResult.NoEffect;
+                moveResult = eMoveResult.NoEffect;
             }
 
             GameSessionStatus = sequenceFound || boardIsFullyMarked ? eGameStatuses.Finished : eGameStatuses.Running;
 
-            return moveExecutionResult;
+            return moveResult;
         }
 
         public void ResetGameSession()
@@ -197,6 +187,5 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             emptyBoard();
             Board.MarkedCells = 0;
         }
-
     }
 }

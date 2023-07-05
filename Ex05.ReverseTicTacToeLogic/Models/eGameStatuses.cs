@@ -6,7 +6,6 @@ namespace Ex05.ReverseTicTacToeLogic.Models
     public enum eGameStatuses
     {
         Running = 1,
-        Quit = 2,
-        Finished = 4,
+        Finished = 2
     }
 }

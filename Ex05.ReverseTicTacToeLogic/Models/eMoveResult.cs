@@ -1,6 +1,6 @@
 ﻿namespace Ex05.ReverseTicTacToeLogic.Models
 {
-    public enum eMoveExecutionResult
+    public enum eMoveResult
     {
         NoEffect,
         Tie,

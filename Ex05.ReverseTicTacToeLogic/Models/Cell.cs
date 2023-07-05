@@ -4,26 +4,29 @@ namespace Ex05.ReverseTicTacToeLogic.Models
 {
     public struct Cell
     {
-        public event Action<int,int,string> ValueChanged;
+        public event Action<int, int, string> ValueChanged;
         public Coords Coords { get; set; }
+        private eCellMarker m_Marker;
 
         public eCellMarker Marker
         {
-            get => Marker;
+            get => m_Marker;
             set
             {
-                Marker = value;
-                OnValueChanged();
+                m_Marker = value;
+                if (m_Marker != eCellMarker.None)
+                {
+                    OnValueChanged();
+                }
             }
-
         }
 
         private void OnValueChanged()
         {
-            int xCoord = this.Coords.X;
-            int yCoord = this.Coords.Y;
+            var x = Coords.X;
+            var y = Coords.Y;
 
-            ValueChanged?.Invoke(xCoord, yCoord, Marker.ToString());
+            ValueChanged?.Invoke(x, y, Marker.ToString());
         }
     }
 }
