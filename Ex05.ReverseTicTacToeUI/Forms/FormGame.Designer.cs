@@ -125,7 +125,7 @@
             this.labelFirstPlayerTurnIndicator.AutoSize = true;
             this.labelFirstPlayerTurnIndicator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelFirstPlayerTurnIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFirstPlayerTurnIndicator.ForeColor = System.Drawing.Color.Lime;
+            this.labelFirstPlayerTurnIndicator.ForeColor = System.Drawing.Color.Gold;
             this.labelFirstPlayerTurnIndicator.Location = new System.Drawing.Point(121, 13);
             this.labelFirstPlayerTurnIndicator.Name = "labelFirstPlayerTurnIndicator";
             this.labelFirstPlayerTurnIndicator.Size = new System.Drawing.Size(102, 24);
@@ -153,7 +153,7 @@
             this.labelSecondPlayerTurnIndicator.AutoSize = true;
             this.labelSecondPlayerTurnIndicator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelSecondPlayerTurnIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSecondPlayerTurnIndicator.ForeColor = System.Drawing.Color.Lime;
+            this.labelSecondPlayerTurnIndicator.ForeColor = System.Drawing.Color.Aquamarine;
             this.labelSecondPlayerTurnIndicator.Location = new System.Drawing.Point(135, 13);
             this.labelSecondPlayerTurnIndicator.Name = "labelSecondPlayerTurnIndicator";
             this.labelSecondPlayerTurnIndicator.Size = new System.Drawing.Size(102, 24);

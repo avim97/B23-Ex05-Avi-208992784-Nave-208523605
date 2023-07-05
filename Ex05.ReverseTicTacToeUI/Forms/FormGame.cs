@@ -142,6 +142,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             foreach (Button button in tableLayoutPanelBoard.Controls)
             {
                 button.Text = string.Empty;
+                button.BackColor = Color.Transparent;
                 button.Enabled = true;
             }
         }
