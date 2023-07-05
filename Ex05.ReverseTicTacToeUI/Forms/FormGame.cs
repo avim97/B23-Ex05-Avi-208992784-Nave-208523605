@@ -44,17 +44,17 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
             r_GameEngine.InitializeBoard(boardSize);
             r_GameEngine.SetGamePlayers(firstPlayerName, secondPlayerName, isAiMatch);
-            r_GameEngine.Board.Reinitialized += Board_Reinitialization;
-            r_GameEngine.Players.First().ScoreChange += firstPlayer_ScoreChanged;
-            r_GameEngine.Players.First().Played += firstPlayer_Played;
-            r_GameEngine.Players.Last().ScoreChange += secondPlayer_ScoreChanged;
-            r_GameEngine.Players.Last().Played += secondPlayer_Played;
+            r_GameEngine.Board.AfterReinitialize += Board_Reinitialization;
+            r_GameEngine.Players.First().ScoreChanged += firstPlayer_ScoreChanged;
+            r_GameEngine.Players.First().AfterPlay += firstPlayer_AfterPlay;
+            r_GameEngine.Players.Last().ScoreChanged += secondPlayer_ScoreChanged;
+            r_GameEngine.Players.Last().AfterPlay += secondPlayer_AfterPlay;
 
         }
 
         private void setGameOverviewData()
         {
-            const string k_PlayerOverviewFormat = @"{0}  Marker: {1} Score: {2}";
+            const string k_PlayerOverviewFormat = @"{0}  Marker:{1} Score:{2}";
 
             labelFirstPlayerOverview.Text = string.Format(k_PlayerOverviewFormat, m_GameState.FirstPlayerName,
                 m_GameState.FirstPlayerMarker, m_GameState.FirstPlayerScore);
@@ -113,8 +113,9 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             Coords buttonCoords = new Coords(xCoord, yCoord);
 
             r_GameEngine.ExecutePlayerMove(buttonCoords);
-            handleMoveResult(buttonCoords);
-            if (r_GameEngine.CurrentPlayerType.Equals(ePlayerType.Computer))
+            eMoveResult lastMoveResult = handleMoveResult(buttonCoords);
+
+            if (lastMoveResult.Equals(eMoveResult.NoEffect) && m_GameState.IsAiMatch)
             {
                 r_GameEngine.ExecuteComputerMove(out Coords chosenCellCoords);
                 handleMoveResult(chosenCellCoords);
@@ -147,7 +148,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             }
         }
 
-        private void handleMoveResult(Coords i_MarkedCellCoords)
+        private eMoveResult handleMoveResult(Coords i_MarkedCellCoords)
         {
             var moveResult = r_GameEngine.CheckPlayerMoveExecutionResult(i_MarkedCellCoords);
             var replayDialogResult = DialogResult.None;
@@ -164,7 +165,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
                 replayDialogResult = displayGameResultMessage(tieMessageToDisplay);
             }
 
-            if (replayDialogResult != DialogResult.None)
+            if (moveResult != eMoveResult.NoEffect)
             {
                 if (replayDialogResult.Equals(DialogResult.Yes))
                 {
@@ -175,6 +176,8 @@ namespace Ex05.ReverseTicTacToeUI.Forms
                     Close();
                 }
             }
+
+            return moveResult;
         }
 
         private void firstPlayer_ScoreChanged(int i_Score)
@@ -183,7 +186,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             setGameOverviewData();
         }
 
-        private void firstPlayer_Played()
+        private void firstPlayer_AfterPlay()
         {
             if (!m_GameState.IsAiMatch)
             {
@@ -198,7 +201,7 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             setGameOverviewData();
         }
 
-        private void secondPlayer_Played()
+        private void secondPlayer_AfterPlay()
         {
             labelSecondPlayerTurnIndicator.Visible = false;
             labelFirstPlayerTurnIndicator.Visible = true;

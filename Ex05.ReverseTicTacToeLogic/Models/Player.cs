@@ -4,8 +4,8 @@ namespace Ex05.ReverseTicTacToeLogic.Models
 {
     public class Player
     {
-        public event Action<int> ScoreChange;
-        public event Action Played;
+        public event Action<int> ScoreChanged;
+        public event Action AfterPlay;
 
         public Player(string i_Name, eCellMarker i_Marker, ePlayerType i_PlayerType)
         {
@@ -21,23 +21,22 @@ namespace Ex05.ReverseTicTacToeLogic.Models
             get => m_Score;
             set
             {
-                m_Score += value;
-                OnScoreChange();
+                m_Score = value;
+                OnScoreChanged();
             }
         }
         public string Name { get; }
         public eCellMarker Marker { get; }
         public ePlayerType PlayerType { get; }
 
-
-        public void OnScoreChange()
+        public void OnScoreChanged()
         {
-            ScoreChange?.Invoke(Score);
+            ScoreChanged?.Invoke(Score);
         }
 
-        public void AfterPlay()
+        public void OnAfterPlay()
         {
-            Played?.Invoke();
+            AfterPlay?.Invoke();
         }
     }
 }

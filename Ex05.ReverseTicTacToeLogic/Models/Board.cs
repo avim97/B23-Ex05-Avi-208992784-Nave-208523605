@@ -17,7 +17,7 @@ namespace Ex05.ReverseTicTacToeLogic.Models
         public int Height { get; }
         public Cell[,] Cells { get; set; }
         public int MarkedCells { get; set; }
-        public event Action Reinitialized;
+        public event Action AfterReinitialize;
 
         private void setCellsCoords()
         {
@@ -40,12 +40,12 @@ namespace Ex05.ReverseTicTacToeLogic.Models
                 }
             }
 
-            AfterReinitialized();
+            OnAfterReinitialize();
         }
 
-        private void AfterReinitialized()
+        private void OnAfterReinitialize()
         {
-            Reinitialized?.Invoke();
+            AfterReinitialize?.Invoke();
         }
     }
 }

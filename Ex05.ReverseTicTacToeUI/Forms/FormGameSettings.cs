@@ -28,8 +28,8 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             }
             else
             {
-                const string k_ComputerPlayerName = "[Computer]";
-                textBoxPlayer2Name.Text = k_ComputerPlayerName;
+                const string k_ComputerPlayerNameIndicator = "[Computer]";
+                textBoxPlayer2Name.Text = k_ComputerPlayerNameIndicator;
             }
         }
 
@@ -45,8 +45,31 @@ namespace Ex05.ReverseTicTacToeUI.Forms
 
         private void buttonStartGame_Click(object sender, EventArgs e)
         {
+            const string k_DefualtFirstPlayerName = "Player1";
+            const string k_DefaultSecondPlayerName = "Player2";
+            const string k_ComputerPlayerName = "Computer";
+
+            if (string.IsNullOrWhiteSpace(textBoxPlayer1Name.Text))
+            {
+                textBoxPlayer1Name.Text = k_DefualtFirstPlayerName;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBoxPlayer2Name.Text))
+            {
+                textBoxPlayer2Name.Text = k_DefaultSecondPlayerName;
+            }
+            else if (IsAiMatch)
+            {
+                textBoxPlayer2Name.Text = k_ComputerPlayerName;
+            }
+
             DialogResult = DialogResult.Yes;
             Close();
+        }
+
+        private void FormGameSettings_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

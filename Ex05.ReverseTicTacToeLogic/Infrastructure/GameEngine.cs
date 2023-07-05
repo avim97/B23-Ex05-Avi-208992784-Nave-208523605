@@ -86,7 +86,7 @@ namespace Ex05.ReverseTicTacToeLogic.Infrastructure
             Player currentPlayer = TurnsManager.CurrentPlayer;
 
             markCell(i_Coords, currentPlayer.Marker);
-            currentPlayer.AfterPlay();
+            currentPlayer.OnAfterPlay();
             SwitchTurns();
         }
 

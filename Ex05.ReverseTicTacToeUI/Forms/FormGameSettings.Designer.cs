@@ -50,7 +50,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(33, 60);
+            this.label1.Location = new System.Drawing.Point(45, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 22);
             this.label1.TabIndex = 0;
@@ -63,7 +63,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label2.Location = new System.Drawing.Point(12, 15);
+            this.label2.Location = new System.Drawing.Point(12, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(91, 25);
             this.label2.TabIndex = 1;
@@ -75,7 +75,7 @@
             this.checkBoxPlayer2.BackColor = System.Drawing.Color.Transparent;
             this.checkBoxPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxPlayer2.ForeColor = System.Drawing.Color.White;
-            this.checkBoxPlayer2.Location = new System.Drawing.Point(37, 91);
+            this.checkBoxPlayer2.Location = new System.Drawing.Point(49, 98);
             this.checkBoxPlayer2.Name = "checkBoxPlayer2";
             this.checkBoxPlayer2.Size = new System.Drawing.Size(112, 26);
             this.checkBoxPlayer2.TabIndex = 2;
@@ -85,18 +85,19 @@
             // 
             // textBoxPlayer1Name
             // 
+            this.textBoxPlayer1Name.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBoxPlayer1Name.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBoxPlayer1Name.Location = new System.Drawing.Point(158, 62);
+            this.textBoxPlayer1Name.Location = new System.Drawing.Point(170, 69);
             this.textBoxPlayer1Name.Name = "textBoxPlayer1Name";
-            this.textBoxPlayer1Name.Size = new System.Drawing.Size(125, 22);
+            this.textBoxPlayer1Name.Size = new System.Drawing.Size(158, 22);
             this.textBoxPlayer1Name.TabIndex = 3;
             // 
             // textBoxPlayer2Name
             // 
             this.textBoxPlayer2Name.Enabled = false;
-            this.textBoxPlayer2Name.Location = new System.Drawing.Point(158, 94);
+            this.textBoxPlayer2Name.Location = new System.Drawing.Point(170, 101);
             this.textBoxPlayer2Name.Name = "textBoxPlayer2Name";
-            this.textBoxPlayer2Name.Size = new System.Drawing.Size(125, 22);
+            this.textBoxPlayer2Name.Size = new System.Drawing.Size(158, 22);
             this.textBoxPlayer2Name.TabIndex = 4;
             this.textBoxPlayer2Name.Text = "[Computer]";
             this.textBoxPlayer2Name.EnabledChanged += new System.EventHandler(this.textBoxPlayer2Name_EnabledChanged);
@@ -107,7 +108,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(12, 181);
+            this.label3.Location = new System.Drawing.Point(12, 187);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 25);
             this.label3.TabIndex = 5;
@@ -115,7 +116,8 @@
             // 
             // numericUpDownRows
             // 
-            this.numericUpDownRows.Location = new System.Drawing.Point(125, 229);
+            this.numericUpDownRows.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numericUpDownRows.Location = new System.Drawing.Point(116, 231);
             this.numericUpDownRows.Maximum = new decimal(new int[] {
             10,
             0,
@@ -139,7 +141,8 @@
             // 
             // numericUpDownCols
             // 
-            this.numericUpDownCols.Location = new System.Drawing.Point(285, 229);
+            this.numericUpDownCols.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numericUpDownCols.Location = new System.Drawing.Point(259, 228);
             this.numericUpDownCols.Maximum = new decimal(new int[] {
             10,
             0,
@@ -163,11 +166,12 @@
             // 
             // label4
             // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(54, 229);
+            this.label4.Location = new System.Drawing.Point(45, 228);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 22);
             this.label4.TabIndex = 8;
@@ -175,11 +179,12 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(223, 229);
+            this.label5.Location = new System.Drawing.Point(197, 228);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 22);
             this.label5.TabIndex = 9;
@@ -187,9 +192,10 @@
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(16, 273);
+            this.button1.Location = new System.Drawing.Point(12, 285);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(365, 33);
             this.button1.TabIndex = 10;
@@ -203,7 +209,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Ex05.ReverseTicTacToeUI.Properties.Resources.formBackground;
-            this.ClientSize = new System.Drawing.Size(393, 321);
+            this.ClientSize = new System.Drawing.Size(389, 341);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -223,6 +229,7 @@
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Game Settings";
+            this.Load += new System.EventHandler(this.FormGameSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCols)).EndInit();
             this.ResumeLayout(false);
