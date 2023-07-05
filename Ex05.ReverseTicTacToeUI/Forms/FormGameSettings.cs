@@ -66,10 +66,5 @@ namespace Ex05.ReverseTicTacToeUI.Forms
             DialogResult = DialogResult.Yes;
             Close();
         }
-
-        private void FormGameSettings_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

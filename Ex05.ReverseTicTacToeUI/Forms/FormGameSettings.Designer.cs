@@ -229,7 +229,6 @@
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Game Settings";
-            this.Load += new System.EventHandler(this.FormGameSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCols)).EndInit();
             this.ResumeLayout(false);
